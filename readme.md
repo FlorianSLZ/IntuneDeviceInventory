@@ -95,12 +95,12 @@ Invoke-IDIDeviceSync -all
 
 ### Reboot devices from group
 ```PowerShell
-Invoke-IDIDeviceReboot -all
+Invoke-IDIDeviceRestart -Group "DEV-WIN-Pilot" # replace DEV-WIN-Pilot with your group name
 ```
 
-### Trigger Defender Scan for selected devices
+### Trigger Defender Scan for selected devices (GridView)
 ```PowerShell
-Invoke-IDIDeviceDefenderScan -all
+Invoke-IDIDeviceDefenderScan -Grid
 ```
 
 ### Trigger Defender Signatures update for device name

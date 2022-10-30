@@ -97,7 +97,7 @@ function Invoke-IDIDeviceRestart {
         
     }elseif($IDIDevice){
         Write-Verbose "Trigger restart for device with id: $($IDIDevice.id) ..."
-        $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($IDIDevice.id)')//microsoft.graph.rebootNow"
+        $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($IDIDevice.id)')/microsoft.graph.rebootNow"
         Invoke-MSGraphRequest -Url $uri -HttpMethod POST
     }else{
         Write-Warning "No device or scope for Invoke-IDIDeviceRestart specified."
