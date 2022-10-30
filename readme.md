@@ -1,6 +1,6 @@
 [![Twitter Follow](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/FlorianSLZ/)  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/fsalzmann/)  [![Website](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://scloud.work/en/about)
 
-# IntuneDeviceInventory (PowerShell Module)
+# IntuneDeviceInventory (IDI)
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/IntuneDeviceInventory)
 
 This module was created to have the ablility to add more informations to a Microsoft Intune device object. 
@@ -12,51 +12,98 @@ The IntuneWin32App module is published to the PowerShell Gallery. Install it on 
 ```PowerShell
 Install-Module -Name IntuneDeviceInventory
 ```
+
+## Import the module for testing
+As an alternative to installing, you chan download this Repository and import it in a PowerShell Session. 
+*The path may be diffent in your case*
+```PowerShell
+Import-Module -Name "C:\GitHub\IntuneDeviceInventory" -Verbose
+```
+
 ## Module dependencies
 IntuneDeviceInventory module requires the following modules, which will be automatically installed as dependencies:
 - Microsoft.Graph.Intune
 
-# Examples
-Here are some examples to start with
+# Functions / Examples
+Here are all functions and some examples to start with
+
+- Add-IDIProperty
+- Connect-IDI
+- Get-IDIDevice
+- Get-IDIDeviceNotes
+- Get-noneIDIReference
+- Invoke-IDIDeviceBitLockerRotation
+- Invoke-IDIDeviceDefenderScan
+- Invoke-IDIDeviceDefenderSignatures
+- Invoke-IDIDeviceRestart
+- Invoke-IDIDeviceSync
+- Set-IDIDevice
+- Set-IDIDeviceNotes
+- Start-IDI
+- Test-4IDIDevices
 
 ## Authentication
-Before using any of the functions within this module that interacts with Graph API, ensure that an authentication token is acquired using the following command:
+Before using any of the functions within this module that interacts with Graph API, ensure you are autheticated. 
+
+### Simple Authentication
+With this command you'll be connected to the Graph API and be able to use all commands
 ```PowerShell
 Connect-IDI
 ```
 
-## Get all Devices (inc. custom fields)
-
+### Authentication with Starting IDI
+With this command you'll be connected to the Graph API and be able to use all commands. 
+In addition all Devices will be in the global Variable '$global:IDIDevices_all' from where you chan edit each individual device. 
 ```PowerShell
-$All = Get-IDIDevices
+Start-IDI
+```
+
+## Basic commands
+### Get Devices (inc. custom fields)
+```PowerShell
+# Ge all devices
+Get-IDIDevices -All
+
+
 ```
 
 ## Adding a Prperty
-
 ```PowerShell
 Add-IDIProperty -PropertyName "Monitor"
 ```
 
-## Get a Singel device
+## Managing a Device
 
 ```PowerShell
-$Device2change = $All | Out-GridView -OutputMode Single
+# Select the devicre
+$Device2edit = $IDIDevices_all | Out-GridView -OutputMode Single
+
+# Set Device Property
+$Device2edit.Monitor = 'Samsung Odyssey G9 49"'
+
+# Update Device in Intune with changes
+Set-IDIDevice -IDIDevice $Device2edit
 ```
 
-## Set Device Property
+## Bulk commands
+With the bulk commands (starting with Invoke-) you chan easily perform INtune bulkactions for selected devices. 
 
+### Sync all devices
 ```PowerShell
-$Device2change.Monitor = "Samsung Odyssey ARK"
+Invoke-IDIDeviceSync -all
 ```
 
-## Update Device in Intune with changes
-
+### Reboot devices from group
 ```PowerShell
-Set-IDIDevice -IDIDevice $Device2change
+Invoke-IDIDeviceReboot -all
 ```
 
-## Sync all devices
-
+### Trigger Defender Scan for selected devices
 ```PowerShell
-Sync-IDIDevice -all
+Invoke-IDIDeviceDefenderScan -all
+```
+
+### Trigger Defender Signatures update for device name
+```PowerShell
+Invoke-IDIDeviceDefenderSignatures -deviceName 'dev-w11-01'
 ```

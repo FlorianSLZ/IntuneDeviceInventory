@@ -27,8 +27,8 @@ function Connect-IDI {
     if($AppID -and $AppSecret){
         Write-Error "tbd... please use Connect-IDI without parameters"
     }else{
-        Connect-MSGraph
+        $MSGraph = Connect-MSGraph
         Update-MSGraphEnvironment -SchemaVersion "Beta" -Quiet
-        Connect-MSGraph -Quiet
+        Write-Verbose $MSGraph
     } 
 }

@@ -11,6 +11,6 @@ function Test-4IDIDevices {
     
     if(!$global:IDIDevices_all){
         Write-Verbose "Devices not retrived yet, will do that for you..."
-        Get-IDIDevices -silent
+        Start-IDI -All
     }  
 }

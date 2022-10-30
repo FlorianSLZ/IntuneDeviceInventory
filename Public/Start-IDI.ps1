@@ -1,4 +1,4 @@
-function Get-IDIDevices{
+function Start-IDI{
     <#
     .SYNOPSIS
         Get all Intune Devices and compile notes (json) into the output
@@ -17,9 +17,6 @@ function Get-IDIDevices{
 
     .PARAMETER Force
         Switch to force overwrite of cached changes
-
-    .PARAMETER Silent
-        Switch to run the function silent, without any output
 
     #>
 
@@ -53,6 +50,29 @@ function Get-IDIDevices{
             if([System.Windows.Forms.MessageBox]::Show("Continue Task? (-Force)","All changes wil be overriten", "YesNo" , "Warning" , "Button1") -ne "Yes"){break}
         }
     }
+
+    # Check Connection / Connect
+    Connect-IDI
+
+
+    $global:IDIDevices_all = Get-IDIDevice -All
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<#
+
+
 
     #   Reading all managed devices
     Write-Verbose "Get all managed Devices from Intune..."
@@ -91,12 +111,10 @@ function Get-IDIDevices{
         }
         $global:IDIDevices_all += $ThisDevice
     }
-
+#>
     
     if($outFile){
         $global:IDIDevices_all | Convertto-Json | Out-File $IDIDevices_json
         if($openJSON){explorer $IDIDevices_json}
     }
-    
-    if(!$silent){return $global:IDIDevices_all}
 }
