@@ -30,7 +30,7 @@ function Get-IDIAuthenticated{
 
 function Get-AllDevices{
     try{
-        return Get-IDIDevices -Force
+        return Get-IDIDevice -All
     }catch{
         Write-Error "Failed to get all devices: $_"
         return $false
