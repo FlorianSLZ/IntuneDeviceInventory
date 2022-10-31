@@ -1,0 +1,414 @@
+<Window x:Class="IntuneDeviceInventory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IntuneDeviceInventory"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dialogs="clr-namespace:SimpleDialogs.Controls;assembly=SimpleDialogs"
+        mc:Ignorable="d"
+        Title="" Height="800" Width="1300" MinWidth="1300" MinHeight="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SimpleDialogs;component/Themes/Dark.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Steel.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="ListViewBackground" Color="Transparent" />
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid x:Name="GridMain" Background="#FF1B1A19">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid x:Name="GridContentFrame" Grid.Row="1">
+                <Grid x:Name="GridAbout"  HorizontalAlignment="Stretch" Visibility="Hidden">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Border Margin="0,30,30,7" BorderBrush="#A19F9D" BorderThickness="1"  Grid.Column="1" Width="200" HorizontalAlignment="Right" Height="200" VerticalAlignment="Top">
+                        <Image  x:Name="ImgBlog" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="200" Height="200"  />
+                    </Border>
+                    <StackPanel>
+                        <Label x:Name="ToolName" Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#DDFFFFFF" FontSize="36"/>
+                        <Label x:Name="Creator" Content="" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="#DDFFFFFF"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Foreground="#DDFFFFFF">
+                            Get more information about the Intune Device Inventory Tool in the
+                            <Hyperlink x:Name="BlogPost" NavigateUri="">blog post</Hyperlink>
+                            or via the
+                            <Hyperlink x:Name="Readme" NavigateUri="">readme</Hyperlink> on git.
+                        </TextBlock>
+                        <Label Content="Check out our social media profiles:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Foreground="#DDFFFFFF" FontSize="18"/>
+                        <StackPanel Orientation="Vertical">
+                            <!-- FS-->
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="ButtonAboutWordpressFs" Margin="20,0,0,0" BorderBrush="#A19F9D" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Right" Background="#FF1B1A19">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image x:Name="ImgWordpressFs" Width="20" Height="20"/>
+                                        <Label Content="Website" Foreground="#DDFFFFFF"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="ButtonAboutTwitterFs" Margin="20,0,0,0" BorderBrush="#A19F9D" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Right" Background="#FF1B1A19">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image x:Name="ImgTwitterFs"  HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20"  />
+                                        <Label Content="Twitter" Foreground="#DDFFFFFF"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="ButtonAboutLinkedInFs" Margin="20,0,0,0" BorderBrush="#A19F9D" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Right" Background="#FF1B1A19">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image x:Name="ImgLinkedInFs"  HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20"  />
+                                        <Label Content="LinkedIn" Foreground="#DDFFFFFF"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="ButtonAboutWordpress" Margin="20,0,0,0" BorderBrush="#A19F9D" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Right" Background="#FF1B1A19">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image x:Name="ImgWordpress" Width="20" Height="20"/>
+                                        <Label Content="Website" Foreground="#DDFFFFFF"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="ButtonAboutTwitter" Margin="20,0,0,0" BorderBrush="#A19F9D" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Right" Background="#FF1B1A19">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image x:Name="ImgTwitter"  HorizontalAlignment="Right"  VerticalAlignment="Top" Width="20" Height="20"  />
+                                        <Label Content="Twitter" Foreground="#DDFFFFFF"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="ButtonAboutLinkedIn" Margin="20,0,0,0" BorderBrush="#A19F9D" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Right" Background="#FF1B1A19">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image x:Name="ImgLinkedIn"  HorizontalAlignment="Right"  VerticalAlignment="Top" Width="20" Height="20"  />
+                                        <Label Content="LinkedIn" Foreground="#DDFFFFFF"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Device Search overview-->
+                <Grid x:Name="GridDeviceFinder" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel  Orientation="Horizontal" Grid.Row="2">
+                        <Button x:Name="ButtonChangeCustomAttributes" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" x:Name="ImgChangeCustomAttribute" Height="18"/>
+                                <Label Content="Change custom attributes" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonRefreshDeviceOverview" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" x:Name="ImgRefresh" Height="18"/>
+                                <Label Content="Refresh" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel  Orientation="Horizontal" Margin="5">
+                        <StackPanel  Orientation="Horizontal" >
+                            <Image Width="20" x:Name="ImgMaxDevices" Height="18"/>
+                            <ComboBox x:Name="ComboboxDevicesCount" Grid.Row="0" HorizontalAlignment="Left" Margin="5,0,0,0" Background="#FF1B1A19" VerticalAlignment="Center" Width="57" IsReadOnly="True" FontSize="10" BorderBrush="White" Foreground="White" OpacityMask="#FF1B1A19"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <Image Width="20" x:Name="ImgDeviceCount" Height="18"/>
+                            <Label x:Name="LabelCountDevices" Content="0 Devices" Foreground="White" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                    <Border BorderBrush="#A19F9D" BorderThickness="1" VerticalAlignment="Center" Grid.Row="1" Width="378" HorizontalAlignment="Left" Margin="10,0,0,0">
+                        <StackPanel Margin="5" Orientation="Horizontal">
+                            <Image Width="20" x:Name="ImgSearchBoxDevice" Height="18"/>
+                            <TextBox x:Name="TextboxSearchBoxDevice" Margin="3 0 0 0" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="339" Background="#FF1B1A19" Foreground="White" BorderThickness="0"/>
+                        </StackPanel>
+                    </Border>
+                    <DataGrid x:Name="DataGridAllDevices" Margin="5,5,5,5"  Grid.Row="3" IsReadOnly = "True" GridLinesVisibility = "Horizontal" CanUserReorderColumns = "True"  SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding DeviceName}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Device name" FontSize="18" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn  Binding="{Binding DeviceOwnership}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Ownership" FontSize="18" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Binding="{Binding DeviceCompliance}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Compliance" FontSize="18" />
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="Not Compliant">
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="Compliant">
+                                                <Setter Property="Foreground" Value="Green" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Binding="{Binding DeviceOS}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="OS" FontSize="18" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Binding="{Binding DeviceOSVersion}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="OS Version" FontSize="18" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Binding="{Binding DeviceLastCheckin}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Last check-in" FontSize="18" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Binding="{Binding DevicePrimaryUser}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Primary user" FontSize="18" />
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+                <!-- Device Search overview-->
+                <Grid x:Name="GridShowDevice" Visibility="Hidden">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ButtonDeviceSync" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" x:Name="ImgDeviceSync" Height="18"/>
+                                <Label Content="Sync device" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonDeviceRestart" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" x:Name="ImgDeviceRestart" Height="18"/>
+                                <Label Content="Restart device" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonBitlockerRotation" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" x:Name="ImgBitlockerRotation" Height="18"/>
+                                <Label Content="Bitlocker key rotation" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonDefenderScan" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" x:Name="ImgDefenderScan" Height="18"/>
+                                <Label Content="Defender Scan" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonDefenderSignature" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" x:Name="ImgDefenderSiganture" Height="18"/>
+                                <Label Content="Defender Signature update" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1">
+                        <Button x:Name="ButtonSave" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgSave" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableSave" Content="Save" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonNewRow" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgNewRow" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableNewRow" Content="Add new Row" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonRemoveRow" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgRemoveRow" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableRemoveRow" Content="Delete Row" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Device Infos" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"  Margin="2,10,0,0" FontWeight="Bold" FontSize="14"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Vertical"  Margin="10,0,0,0">
+                                    <Label Content="Hostname" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Device Compliance" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Primary User Upn" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Enrollment DateTime" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Last Sync DateTime" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Os version" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Category" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Model" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Serial number" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                    <Label Content="Lost mode state" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#A19F9D"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical"  Grid.Column="1" Margin="10,0,0,0">
+                                    <Label x:Name="LabelHostname" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelDeviceCompliance" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelPrimaryUserUpn" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelEnrollmentDateTime" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelLastSyncDateTime" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelOsVersion" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelCategory" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelModel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelSerialNumber" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                    <Label x:Name="LabelLostModeState" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#2089F5"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <DataGrid x:Name="DataGridSingleDevice" Margin="5,5,5,5" IsReadOnly = "False" Grid.Column="1" GridLinesVisibility = "Horizontal" SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Name}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Name" FontSize="18" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn  Binding="{Binding Value}" >
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Value" FontSize="18" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn  Binding="{Binding Changed}" IsReadOnly="True" >
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Changed" FontSize="18" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                </Grid>
+
+                <!-- Device Search overview-->
+                <Grid x:Name="GridShowDevicesMulti" Visibility="Hidden">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1">
+                        <Button x:Name="ButtonSaveMulti" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgSaveMulti" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableSaveMulti" Content="Save" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonNewRowMulti" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgNewRowMulti" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableNewRowMulti" Content="Add new Row" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="ButtonRemoveRowMulti" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgRemoveRowMulti" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableRemoveRowMulti" Content="Delete Row" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                            <DataGrid x:Name="DataGridMultiDevicesSelected" Margin="5,5,5,5" IsReadOnly = "False" Grid.Column="0" GridLinesVisibility = "Horizontal" SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False" >
+                                <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding DeviceName}" IsReadOnly="True">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock Text="Hostname" FontSize="18" />
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+
+                                <DataGridTextColumn  Binding="{Binding DevicePrimaryUser}" IsReadOnly="True">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Priamry User" FontSize="18" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                            </DataGrid>
+
+                        <DataGrid x:Name="DataGridMultiDevices" Margin="5,5,5,5" IsReadOnly = "False" Grid.Column="1" GridLinesVisibility = "Horizontal" SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Name}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Name" FontSize="18" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn  Binding="{Binding Value}" >
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Value" FontSize="18" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn  Binding="{Binding Changed}" IsReadOnly="True" >
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Changed" FontSize="18" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+
+        
+            <!-- Header-->
+            <Grid x:Name="GridHeader" Height="50" VerticalAlignment="Top" Background="#252423">
+                <Button x:Name="ButtonHome" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="ImgHome" HorizontalAlignment="Center" Width="20" Height="20" />
+                        <Label x:Name="LableHeader" Content="" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="ButtonAbout" Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0">
+                        <Image x:Name="ImgButtonAbout" HorizontalAlignment="Center" Width="20" Height="20" />
+                    </Button>
+                    <StackPanel Orientation="Vertical">
+                        <Label x:Name="LableUPN" Content=""  Margin="0,0,6,0" VerticalAlignment="Top" Foreground="White" FontSize="10"/>
+                        <Label x:Name="LableTenant" Content="" Margin="0,0,3,0" VerticalAlignment="Top" Foreground="White" FontSize="10"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <dialogs:DialogContainer Name="dialog"/>
+    </Grid>
+</Window>
+
