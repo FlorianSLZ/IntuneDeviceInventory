@@ -71,7 +71,9 @@ function Set-UiActionButton {
     Add-XamlEvent -object $WPFButtonSave -event "Add_Click" -scriptBlock {
         $WPFDataGridSingleDevice.Items | ForEach-Object{
             $item = $WPFDataGridAllDevices.SelectedItems[0].Details | Where-Object {-not($_.Changed -eq "Delete" -or $_.Changed -eq '(*)')}
-            $item | Add-Member -NotePropertyName $_.Name -NotePropertyValue $_.Value
+            if (-not ($item | Get-Member -Name $_.Name)){
+                $item | Add-Member -NotePropertyName $_.Name -NotePropertyValue $_.Value
+            }
             Set-IDIDevice -IDIDevice $item
             $_.Changed = $null
         }
