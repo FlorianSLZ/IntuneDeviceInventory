@@ -82,6 +82,7 @@ $global:ToolName = "Intune Device Inventory UI"
 $global:Version = "0.1"
 $global:Developer = "Florian Salzmann and Jannik Reinhard"
 $global:Path = $PSScriptRoot
+$global:selectedDeviceItem = $null
 
 # Start Start Screen
 Get-MessageScreen -xamlPath ("$global:Path\xaml\message.xaml")

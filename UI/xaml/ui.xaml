@@ -249,6 +249,12 @@
                                 <Label x:Name="LableRemoveRow" Content="Delete Row" Foreground="White"/>
                             </StackPanel>
                         </Button>
+                        <Button x:Name="ButtonResetRow" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgResetRow" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableResetRow" Content="Reset Row" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
 
                     <Grid Grid.Row="1">
@@ -339,6 +345,14 @@
                                 <Label x:Name="LableRemoveRowMulti" Content="Delete Row" Foreground="White"/>
                             </StackPanel>
                         </Button>
+                        <Button x:Name="ButtonResetRowMulti" Visibility="Visible"  VerticalAlignment="Center" Background="#323130" BorderThickness="0,0,0,0" Margin="5,0,0,0" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="ImgResetRowMulti" HorizontalAlignment="Center" Width="20" Height="20" />
+                                <Label x:Name="LableResetRowMulti" Content="Reset Row" Foreground="White"/>
+                            </StackPanel>
+                        </Button>
+
+
                     </StackPanel>
 
                     <Grid Grid.Row="1">
@@ -370,7 +384,6 @@
                                         <TextBlock Text="Name" FontSize="18" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-
                                 <DataGridTextColumn  Binding="{Binding Value}" >
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="Value" FontSize="18" />
@@ -381,6 +394,11 @@
                                         <TextBlock Text="Changed" FontSize="18" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
+                                <DataGridCheckBoxColumn Binding="{Binding UpdateAttribute}">
+                                    <DataGridCheckBoxColumn.Header>
+                                        <TextBlock Text="Set to all" FontSize="18" />
+                                    </DataGridCheckBoxColumn.Header>
+                                </DataGridCheckBoxColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

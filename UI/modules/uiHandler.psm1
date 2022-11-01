@@ -50,21 +50,26 @@ function Set-UiActionButton {
     # Device selection view
     Add-XamlEvent -object $WPFButtonRefreshDeviceOverview -event "Add_Click" -scriptBlock {
         $WPFTextboxSearchBoxDevice.Text = ""
-        $global:allDevices = Get-AllDevices
-        $allDevicesGrid = Add-DevicesToGridObject -devices $global:allDevices
-        Add-DevicesToGrid -devices $allDevicesGrid
+        Get-RefresDevices
     }
 
     Add-XamlEvent -object $WPFButtonChangeCustomAttributes -event "Add_Click" -scriptBlock { Show-DeviceAttributes}
 
     # Signel Device view
     Add-XamlEvent -object $WPFButtonNewRow -event "Add_Click" -scriptBlock {
-        $WPFDataGridSingleDevice.ItemsSource +=('{ "Value":"Add a value", "Name":"New Attribute", "Changed":"(*)" }' | ConvertFrom-Json)
+        $WPFDataGridSingleDevice.ItemsSource +=('{ "Value":"Add a value", "Name":"New Attribute", "Changed":"(*)", "InitValue":"Add a value", "InitName":"New Attribute", "UpdateAttribute":"False" }' | ConvertFrom-Json)
         $WPFDataGridSingleDevice.Items.Refresh()
     }
 
     Add-XamlEvent -object $WPFButtonRemoveRow -event "Add_Click" -scriptBlock {
         $WPFDataGridSingleDevice.SelectedItem.Changed = "Delete"
+        $WPFDataGridSingleDevice.Items.Refresh()
+    }
+
+    Add-XamlEvent -object $WPFButtonResetRow -event "Add_Click" -scriptBlock {
+        $WPFDataGridSingleDevice.SelectedItem.Changed = $null
+        $WPFDataGridSingleDevice.SelectedItem.Name = $WPFDataGridSingleDevice.SelectedItem.InitName
+        $WPFDataGridSingleDevice.SelectedItem.Value = $WPFDataGridSingleDevice.SelectedItem.InitValue
         $WPFDataGridSingleDevice.Items.Refresh()
     }
 
@@ -76,9 +81,72 @@ function Set-UiActionButton {
             }
             Set-IDIDevice -IDIDevice $item
             $_.Changed = $null
+            $_.InitValue = $_.Value
+            $_.InitName = $_.Name
         }
         $WPFDataGridSingleDevice.Items.Refresh()
+        Get-RefresDevices
     }
+
+    # Multi devices
+    Add-XamlEvent -object $WPFButtonNewRowMulti -event "Add_Click" -scriptBlock {
+        $WPFDataGridMultiDevices.ItemsSource +=('{ "Value":"Add a value", "Name":"New Attribute", "Changed":"(*)", "InitValue":"Add a value", "InitName":"New Attribute", "UpdateAttribute":"False" }' | ConvertFrom-Json)
+        $WPFDataGridMultiDevices.Items.Refresh()
+    }
+
+    Add-XamlEvent -object $WPFButtonRemoveRowMulti -event "Add_Click" -scriptBlock {
+        $WPFDataGridMultiDevices.SelectedItem.Changed = "Delete"
+        $WPFDataGridMultiDevices.SelectedItem.UpdateAttribute = $true
+        $WPFDataGridMultiDevices.Items.Refresh()
+    }
+
+    Add-XamlEvent -object $WPFButtonResetRowMulti -event "Add_Click" -scriptBlock {
+        $WPFDataGridMultiDevices.SelectedItem.Changed = $null
+        $WPFDataGridMultiDevices.SelectedItem.UpdateAttribute = $false
+        $WPFDataGridMultiDevices.SelectedItem.Name = $WPFDataGridMultiDevices.SelectedItem.InitName
+        $WPFDataGridMultiDevices.SelectedItem.Value = $WPFDataGridMultiDevices.SelectedItem.InitValue
+        $WPFDataGridMultiDevices.Items.Refresh()
+    }
+
+    Add-XamlEvent -object $WPFButtonSaveMulti -event "Add_Click" -scriptBlock {
+        # Check if there are changes to apply
+        if(($WPFDataGridMultiDevices.ItemsSource.UpdateAttribute | Where-Object {$_ -eq $true}).count -lt 1){
+            Show-MessageBoxInWindow -text "No change to apply. Please check add and mark an attibute to change" -button1text "Ok"
+        }
+
+        $WPFDataGridMultiDevicesSelected.ItemsSource | ForEach-Object{
+            $device = $_.Details
+            foreach($item in $_.CustomInventory){
+                $device | Add-Member -NotePropertyName $item.Name -NotePropertyValue $item.Value -Force
+            }
+
+            foreach($inventory in $WPFDataGridMultiDevices.ItemsSource){
+                if($inventory.CurrentItem.Name -eq 'New Attribute' -and $inventory.CurrentItem.Value -eq 'Add a value'){continue}
+                if($inventory.UpdateAttribute -ne $true){continue}
+                
+                # if($inventory.Name -in $device.PSObject.Properties.Name){
+                if($inventory.Changed -eq "Delete"){
+                    $device = $device | Select-Object -Property * -ExcludeProperty $inventory.Name
+                }else{
+                    $device | Add-Member -NotePropertyName $inventory.Name -NotePropertyValue $inventory.Value -Force
+                }
+                Set-IDIDevice -IDIDevice $device
+            } 
+        }
+        $WPFDataGridMultiDevices.ItemsSource = $WPFDataGridMultiDevices.ItemsSource | Where-Object {($_.Changed -ne "Delete" -and $_.Changed -ne '(*)')}
+        
+        $WPFDataGridMultiDevices.ItemsSource | ForEach-Object {
+            $_.UpdateAttribute = $false
+            $_.Changed = $null
+            $_.InitValue = $_.Value
+            $_.InitName = $_.Name
+        }
+        
+        $WPFDataGridMultiDevices.Items.Refresh()
+        $WPFDataGridMultiDevices.ItemsSource
+        Get-RefresDevices
+    }
+    
 
     # Device Actions
     Add-XamlEvent -object $WPFButtonDeviceSync -event "Add_Click" -scriptBlock {Invoke-IDIDeviceSync -IDIDevice $WPFDataGridAllDevices.SelectedItems[0].Details}
@@ -94,17 +162,25 @@ function Set-UiAction {
     }
 
     Add-XamlEvent -object $WPFDataGridSingleDevice -event "Add_CurrentCellChanged" -scriptBlock {
-        if($this.CurrentItem.Name -eq 'New Attribute' -or $this.CurrentItem.Value -eq 'Add a value'){
+        if($this.CurrentItem.Name -eq 'New Attribute' -and $this.CurrentItem.Value -eq 'Add a value'){
             $this.CurrentItem.Changed = '(*)'
             return
         }
-        if($this.CurrentItem.Changed -eq '*'){return}
-        
-        try{
+        if($this.CurrentItem.Name -ne $this.CurrentItem.InitName -or $this.CurrentItem.Value -ne $this.CurrentItem.InitValue){
             $this.CurrentItem.Changed = '*'
-        }catch{}
-    
-        $WPFDataGridSingleDevice.Items.Refresh()
+        }    
+        $this.Items.Refresh()
+    }
+
+    Add-XamlEvent -object $WPFDataGridMultiDevices -event "Add_CurrentCellChanged" -scriptBlock {
+        if($this.CurrentItem.Name -eq 'New Attribute' -and $this.CurrentItem.Value -eq 'Add a value'){
+            $this.CurrentItem.Changed = '(*)'
+            return
+        }
+        if($this.CurrentItem.Name -ne $this.CurrentItem.InitName -or $this.CurrentItem.Value -ne $this.CurrentItem.InitValue){
+            $this.CurrentItem.Changed = '*'
+        }    
+        $this.Items.Refresh()
     }
     
     # Device 
@@ -181,15 +257,15 @@ function Show-MessageBoxInWindow {
 }
 
 function Show-DeviceAttributes {
-    $selectedItems = $WPFDataGridAllDevices.SelectedItems
-    if ($selectedItems.count -lt 1) {
+    $selectedDeviceItem = $WPFDataGridAllDevices.SelectedItems
+    if ($selectedDeviceItem.count -lt 1) {
         Show-MessageBoxInWindow -text "Select a Item" -button1text "OK"
         return
-    }elseif ($selectedItems.count -eq 1) {
-        Show-SingleDevice -selectedItem $selectedItems[0]
+    }elseif ($selectedDeviceItem.count -eq 1) {
+        Show-SingleDevice -selectedItem $selectedDeviceItem[0]
         return
     }else{
-        Show-MultiDevices -selectedItems @(($selectedItems | ConvertTo-Json | ConvertFrom-Json))
+        Show-MultiDevices -selectedItems @($selectedDeviceItem)
     }
     
 }
@@ -229,7 +305,12 @@ function Show-MultiDevices{
     # Show selected Devices
     $WPFDataGridMultiDevicesSelected.ItemsSource = $selectedItems
 
-    Write-Information "Multi Selection not yet implemented"
+    # Create inventory
+    $inventory = @()
+    $selectedItems | ForEach-Object {$inventory =  $inventory  + $_.CustomInventory}
+    $inventory = @($inventory | Sort-Object -Property Name,Value -Unique)
+
+    $WPFDataGridMultiDevices.ItemsSource = $inventory
 }
 
 
@@ -321,10 +402,12 @@ function Set-UiImages {
     $WPFImgSave.source = Get-DecodeBase64Image -ImageBase64 $iconSave
     $WPFImgNewRow.source = Get-DecodeBase64Image -ImageBase64 $iconNewRow
     $WPFImgRemoveRow.source = Get-DecodeBase64Image -ImageBase64 $iconRemoveRow  
+    $WPFImgResetRow.source = Get-DecodeBase64Image -ImageBase64 $iconDeviceRestart  
 
     $WPFImgSaveMulti.source = Get-DecodeBase64Image -ImageBase64 $iconSave
     $WPFImgNewRowMulti.source = Get-DecodeBase64Image -ImageBase64 $iconNewRow
     $WPFImgRemoveRowMulti.source = Get-DecodeBase64Image -ImageBase64 $iconRemoveRow  
+    $WPFImgResetRowMulti.source = Get-DecodeBase64Image -ImageBase64 $iconDeviceRestart  
 
     # Fill combo box    
     $valueGroupCount = "10", "100", "500", "1000", "5000", "10000", "All"
