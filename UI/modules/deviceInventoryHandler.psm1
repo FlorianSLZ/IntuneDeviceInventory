@@ -37,6 +37,12 @@ function Get-AllDevices{
     }
 }
 
+function Get-RefresDevices{
+    $global:allDevices = Get-AllDevices
+    $allDevicesGrid = Add-DevicesToGridObject -devices $global:allDevices
+    Add-DevicesToGrid -devices $allDevicesGrid
+}
+
 function Add-DevicesToGridObject {
     param (
         [Parameter(Mandatory = $true)] $devices
@@ -49,9 +55,15 @@ function Add-DevicesToGridObject {
             $customInventory = @(($_ | Select-Object -Property * -ExcludeProperty $referenceObject).PSObject.Properties | Select-Object -Property Value, Name)
             foreach($item in $customInventory){
                 $item | Add-Member -MemberType NoteProperty -Name "Changed" -Value $null
+                $item | Add-Member -MemberType NoteProperty -Name "UpdateAttribute" -Value $false
+                $item | Add-Member -MemberType NoteProperty -Name "InitValue" -Value $item.Value
+                $item | Add-Member -MemberType NoteProperty -Name "InitName" -Value $item.Name
+
                 if($item.Name -eq '*'){
                     $item.Name = 'New Attribute'
+                    $item.InitName  = $item.Name
                     $item.Value  = 'Add a value'
+                    $item.InitValue  = $item.Value
                     $item.Changed  = '(*)'
                 }
             }
