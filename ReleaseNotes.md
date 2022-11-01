@@ -1,4 +1,17 @@
 # Release notes for IntuneDeviceInventory module
+## 0.1.3
+Added functions:
+- Import-IDIAppConnection
+- Invoke-PagingRequest
+- New-IDIApp
+- Save-IDIAppConnection
+
+Improved funtions:
+- Connect-IDI 
+    - Support for Azure AD App authentification
+- Get-IDIDevices
+    - Support for 1000+ Devices
+
 ## 0.1.2
 Added functions:
 - Get-IDIDeviceNotes

@@ -37,8 +37,7 @@ function Get-IDIDeviceNotes{
             }
             
             if (-not ($IDIDevice | Get-Member -Name $property.Name)){
-            $IDIDevice | Add-Member -NotePropertyName $property.Name -NotePropertyValue $property.Value
-            #Read-Host "enter weiter"
+                $IDIDevice | Add-Member -NotePropertyName $property.Name -NotePropertyValue $property.Value
             }
         }
     }

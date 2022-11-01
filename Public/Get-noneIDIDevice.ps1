@@ -76,7 +76,8 @@ function Get-noneIDIDevice{
     if($All){
         Write-Verbose "Get all managed Devices from Intune..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices"
-        $IntuneDevices = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value
+        $Method = "GET"
+        $IntuneDevices = (Invoke-PagingRequest -URI $uri -Method $Method)
     
     }elseif($ScopeTag){
         # tbd
@@ -88,12 +89,13 @@ function Get-noneIDIDevice{
         $GroupID = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value.id
         
         Write-Verbose "Get group members for ID: $GroupID ..."
-        $uri = "https://graph.microsoft.com/beta/groups('$GroupID')/members"
-        $GroupMembersID = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value.deviceId
+        $uri = "https://graph.microsoft.com/beta/groups('$GroupID')/transitiveMembers"
+        $Method = "GET"
+        $GroupMembersID = (Invoke-PagingRequest -URI $uri -Method $Method).deviceId
         
-        Write-Verbose "Call function with -azureADDeviceId ..."
+        Write-Verbose "Call function with -azureADDeviceId ($($GroupMembersID.count) members found)..."
         foreach($AADDID in $GroupMembersID){
-            $IntuneDevices += Get-noneIDIDevice -azureADDeviceId $AADDID
+            if($AADDID){  $IntuneDevices += Get-noneIDIDevice -azureADDeviceId $AADDID    }
         }
         
     }elseif($User){
