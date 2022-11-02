@@ -7,7 +7,7 @@ Handling of IDI
   Author: Jannik Reinhard
 #>
 
-function Get-IDIAuthenticated{
+function Install-IdiModule{
     $IntuneDeviceInventory = Get-InstalledModule -Name "IntuneDeviceInventory" -ErrorAction SilentlyContinue
     try{
         if(-not ($IntuneDeviceInventory)){
@@ -17,17 +17,8 @@ function Get-IDIAuthenticated{
         Write-Error "Failed to install Intune Device Inventory from Powershell gallery: $_"
         return $false
     }
-
-    try {
-        Connect-IDI
-    }
-    catch {
-        Write-Error "Failed to authenticate on Graph: $_"
-        return $false
-    }
     return $true
 }
-
 function Get-AllDevices{
     try{
         return Get-IDIDevice -All

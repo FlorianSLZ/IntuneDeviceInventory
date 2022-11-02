@@ -21,6 +21,16 @@ function Get-MessageScreen {
     Add-Type -AssemblyName PresentationFramework
     [xml]$xaml = Get-Content $xamlPath
     $global:messageScreen = ([Windows.Markup.XamlReader]::Load((New-Object System.Xml.XmlNodeReader $xaml)))
+    [System.Windows.Forms.Application]::DoEvents()
+}
+
+function Get-LoadingMessageScreen {
+    param (
+            [Parameter(Mandatory = $true)]
+            [String]$xamlPath
+    )
+
+    Get-MessageScreen -xamlPath $xamlPath
     $global:messageScreenTitle = $global:messageScreen.FindName("TextMessageHeader")
     $global:messageScreenText = $global:messageScreen.FindName("TextMessageBody")
     $global:button1 = $global:messageScreen.FindName("ButtonMessage1")
@@ -82,10 +92,13 @@ $global:ToolName = "Intune Device Inventory UI"
 $global:Version = "0.1"
 $global:Developer = "Florian Salzmann and Jannik Reinhard"
 $global:Path = $PSScriptRoot
-$global:selectedDeviceItem = $null
+$global:AuthMethod = $null
+$global:AuthTenant = $null
+$global:AuthAppId = $null
+$global:AuthAppSecret = $null
 
 # Start Start Screen
-Get-MessageScreen -xamlPath ("$global:Path\xaml\message.xaml")
+Get-LoadingMessageScreen -xamlPath ("$global:Path\xaml\message.xaml")
 Set-MessageScreenText -text "Starting $toolName" -header "Initializing $toolName"
 
 # Load custom modules
@@ -103,9 +116,14 @@ if (-not (Import-Dlls)) {
 Set-MessageScreenText -text "Create temp folder if not exist"
 $folder = Add-TempFolder
 
+# Install Idi odule
+Set-MessageScreenText -text "Try to install IntuneDeviceInventory module"
+if (-not (Install-IdiModule)) { Exit-Error -text "Error while install the IntuneDeviceInventory modules" }
+
 # Authenticate
 Set-MessageScreenText -text "Try to authenticate on Graph"
-if (-not (Get-IDIAuthenticated)) { Exit-Error -text "Failed to authenticate" }
+Get-Authenticated
+Get-LoadingMessageScreen -xamlPath ("$global:Path\xaml\message.xaml")
 
 # Init Ui
 Set-MessageScreenText -text "Intit User Interface"

@@ -1,7 +1,7 @@
 <Window 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Intune Tool box" 
+        Title="Intune Device Inventory UI" 
         Height="150" Width="420"
         WindowStartupLocation="CenterScreen" WindowStyle="None" 
         ShowInTaskbar="False" Topmost="True" 
