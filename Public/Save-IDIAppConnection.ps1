@@ -7,7 +7,7 @@ function Save-IDIAppConnection {
         Save the App Connection details
         
     .PARAMETER ClientId
-        AppID for connection with MSGraph
+        ClientID for connection with MSGraph
 
     .PARAMETER TenantId
         TenantId for connection with MSGraph
@@ -29,11 +29,11 @@ function Save-IDIAppConnection {
         [ValidateNotNullOrEmpty()]
         [string]$TenantId,
 
-        [parameter(Mandatory = $true, HelpMessage = "App Secret for connection with MSGraph")]
+        [parameter(Mandatory = $true, HelpMessage = "Client Secret for connection with MSGraph")]
         [ValidateNotNullOrEmpty()]
         [string]$ClientSecret,
 
-        [parameter(Mandatory = $false, HelpMessage = "App Secret for connection with MSGraph")]
+        [parameter(Mandatory = $false, HelpMessage = "Path where the App connections are stored")]
         [ValidateNotNullOrEmpty()]
         [string]$Path = "$env:LocalAppData\IntuneDeviceInventory\AppConnection\$TenantId.connection"
     )

@@ -7,10 +7,10 @@ function New-IDIApp {
         Create App regestration for Graph API access
         
     .PARAMETER AppName
-        AppID for connection with MSGraph
+        AppName for Azure AD registration
 
     .PARAMETER Save
-        App Secret for connection with MSGraph
+        Path where the App connections are stored
 
     #>
 
@@ -27,7 +27,7 @@ function New-IDIApp {
         [ValidateNotNullOrEmpty()]
         [switch]$Force,
 
-        [parameter(Mandatory = $false, HelpMessage = "App Secret for connection with MSGraph")]
+        [parameter(Mandatory = $false, HelpMessage = "Path where the App connections are stored")]
         [ValidateNotNullOrEmpty()]
         [string]$Path
     )
