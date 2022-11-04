@@ -36,6 +36,5 @@ function Set-IDIDeviceNotes{
     $Json = @{ "notes" = "$Note_json" } 
     $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$id')"
 
-    $MSGraphRequest =  Invoke-MSGraphRequest -Url $uri -HttpMethod PATCH -Content $Json
-    Write-Verbose "$MSGraphRequest"
+    Invoke-MSGraphRequest -Url $uri -HttpMethod PATCH -Content $Json
 }

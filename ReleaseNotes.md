@@ -1,4 +1,10 @@
 # Release notes for IntuneDeviceInventory module
+## 1.0.0
+This is the relese after testing and optimizing varios funtions. 
+
+Added functions:
+- ConvertTo-IDINotes
+
 ## 0.1.3
 Added functions:
 - Import-IDIAppConnection
