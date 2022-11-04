@@ -25,21 +25,26 @@ function Get-IDIDeviceNotes{
     $uri = "https://graph.microsoft.com/beta/$($Resource)?select=$properties"
     $Notes = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).notes
 
-    if($Notes){       
-        $Notes = $Notes | Convertfrom-Json
+    if($Notes){
+        try{
+            $Notes = $Notes | Convertfrom-Json
 
-        # add Properties to main collection & this client
-        foreach($property in $Notes[0].PSObject.Properties){
-            if($global:IDIDevices_all){
-                if (-not ($global:IDIDevices_all | Get-Member -Name $property.Name)){
-                    $global:IDIDevices_all | Add-Member -NotePropertyName $property.Name -NotePropertyValue $null
+            # add Properties to main collection & this client
+            foreach($property in $Notes[0].PSObject.Properties){
+                if($global:IDIDevices_all){
+                    if (-not ($global:IDIDevices_all | Get-Member -Name $property.Name)){
+                        $global:IDIDevices_all | Add-Member -NotePropertyName $property.Name -NotePropertyValue $null
+                    }
+                }
+                
+                if (-not ($IDIDevice | Get-Member -Name $property.Name)){
+                    $IDIDevice | Add-Member -NotePropertyName $property.Name -NotePropertyValue $property.Value
                 }
             }
-            
-            if (-not ($IDIDevice | Get-Member -Name $property.Name)){
-                $IDIDevice | Add-Member -NotePropertyName $property.Name -NotePropertyValue $property.Value
-            }
+        }catch{
+            Write-Error "Notes of $($IDIDevice.id) are not compatible with the IntuneDeviceInventory. `nRun the following command to convert them:`nConvertTo-IDINotes -DeviceId $($IDIDevice.id)"
         }
+        
     }
     return $IDIDevice
 
