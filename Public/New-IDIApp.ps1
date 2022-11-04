@@ -55,25 +55,33 @@ function New-IDIApp {
         Write-Verbose "Permissions will be set, Admin consent still required"
     $Permissions = '
 {
-    "ResourceAppId":  "00000003-0000-0000-c000-000000000000",
-    "ResourceAccess":  [
-                            {
-                                "Id":  "5b567255-7703-4780-807c-7be8301ae99b",
-                                "Type":  "Role"
-                            },
-                            {
-                                "Id":  "5b07b0dd-2377-4e44-a38d-703f09a0dc3c",
-                                "Type":  "Role"
-                            },
-                            {
-                                "Id":  "243333ab-4d21-40cb-a475-36241daa0842",
-                                "Type":  "Role"
-                            },
-                            {
-                                "Id":  "98830695-27a2-44f7-8c18-0c3ebc9698f6",
-                                "Type":  "Role"
-                            }
-                        ]
+    "resourceAppId": "00000003-0000-0000-c000-000000000000",
+    "resourceAccess": [
+        {
+            "id": "5b567255-7703-4780-807c-7be8301ae99b",
+            "type": "Role"
+        },
+        {
+            "id": "498476ce-e0fe-48b0-b801-37ba7e2685c6",
+            "type": "Role"
+        },
+        {
+            "id": "df021288-bdef-4463-88db-98f22de89214",
+            "type": "Role"
+        },
+        {
+            "id": "5b07b0dd-2377-4e44-a38d-703f09a0dc3c",
+            "type": "Role"
+        },
+        {
+            "id": "243333ab-4d21-40cb-a475-36241daa0842",
+            "type": "Role"
+        },
+        {
+            "id": "98830695-27a2-44f7-8c18-0c3ebc9698f6",
+            "type": "Role"
+        }
+    ]
 }
 ' | ConvertFrom-Json
     
