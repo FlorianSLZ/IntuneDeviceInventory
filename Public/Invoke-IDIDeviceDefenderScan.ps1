@@ -97,7 +97,7 @@ function Invoke-IDIDeviceDefenderScan {
             
         }elseif($IDIDevice){
             Write-Verbose "Trigger Defender Scan for device with id: $($IDIDevice.id) ..."
-            $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($IDIDevice.id)')/microsoft.graph.windowsDefenderScan"
+            $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($IDIDevice.id)')/windowsDefenderScan"
             Invoke-MSGraphRequest -Url $uri -HttpMethod POST
         }else{
             Write-Warning "No device or scope for Invoke-IDIDeviceDefenderScan specified."
