@@ -1,12 +1,13 @@
 <#
-.SYNOPSIS
-Core functions
-.DESCRIPTION
-Core functions
-.NOTES
-  Author: Jannik Reinhard
+Version: 1.0
+Author: Florian Salzman (scloud.work) / Jannik Reinhard (jannikreinhard.com)
+Script: deviceInventoryHandler
+Description:
+Utility functions
+Release notes:
+1.0 :
+- Init
 #>
-
 function Import-Dlls {
   #Load dll
   try {
@@ -15,7 +16,7 @@ function Import-Dlls {
     [System.Reflection.Assembly]::LoadFrom("$global:Path\libaries\MahApps.Metro.dll")       				| out-null
     [System.Reflection.Assembly]::LoadFrom("$global:Path\libaries\ControlzEx.dll")                  | out-null  
     [System.Reflection.Assembly]::LoadFrom("$global:Path\libaries\SimpleDialogs.dll")               | out-null
-    [System.Reflection.Assembly]::LoadFrom("$global:Path\libaries\LoadingIndicators.WPF.dll")       | out-null   
+    #[System.Reflection.Assembly]::LoadFrom("$global:Path\libaries\LoadingIndicators.WPF.dll")       | out-null   
   
   }
   catch {

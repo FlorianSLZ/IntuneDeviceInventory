@@ -25,14 +25,16 @@
             
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,0,0,0">
                 <StackPanel Grid.Row="2" Orientation="Vertical">
-                    <TextBlock x:Name="LblTenantId" Text="TenantId: " Height="16"/>
+                    <TextBlock x:Name="LblTenantId" Text="TenantId: " Height="16" Visibility="Collapsed"/>
                     <TextBlock x:Name="LblAppId" Text="AppId: " Height="16" Visibility="Collapsed" />
                     <TextBlock x:Name="LblAppSecret" Text="App Secret: " Height="16" Visibility="Collapsed"/>
+                     <TextBlock x:Name="LblSecret" Text="Connection: " Height="16" Visibility="Collapsed"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10,0,0,0">
-                    <TextBox x:Name="TxtTenantId" Width="185" />
+                    <TextBox x:Name="TxtTenantId" Width="185" Visibility="Collapsed"/>
                     <TextBox x:Name="TxtAppId" Width="185" Visibility="Collapsed"/>
                     <TextBox x:Name="TxtSecret" Width="185" Visibility="Collapsed"/>
+                    <ComboBox x:Name="ComboboxConnection" Grid.Row="0" HorizontalAlignment="Left" Background="#FF1B1A19" Foreground="Black" VerticalAlignment="Center" Width="185" IsReadOnly="True" FontSize="10" BorderBrush="White" OpacityMask="#FF1B1A19" Visibility="Collapsed"/>
                 </StackPanel>
             </StackPanel>
 

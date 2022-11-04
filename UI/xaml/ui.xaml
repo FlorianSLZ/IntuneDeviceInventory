@@ -49,9 +49,15 @@
                             Get more information about the Intune Device Inventory Tool in the
                             <Hyperlink x:Name="BlogPost" NavigateUri="">blog post</Hyperlink>
                             or via the
-                            <Hyperlink x:Name="Readme" NavigateUri="">readme</Hyperlink> on git.
+                            <Hyperlink x:Name="Readme" NavigateUri="https://github.com/FlorianSLZ/IntuneDeviceInventory/blob/main/UI/readme.md">readme</Hyperlink> on git.
                         </TextBlock>
                         <Label Content="Check out our social media profiles:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Foreground="#DDFFFFFF" FontSize="18"/>
+                        
+                        <StackPanel Orientation="Horizontal">
+<StackPanel Orientation="Vertical">
+                        <Label Content="Florian Salzmann" Foreground="#DDFFFFFF"/>
+                        <Label Content="Jannik Reinhard" Foreground="#DDFFFFFF"/>
+                        </StackPanel>
                         <StackPanel Orientation="Vertical">
                             <!-- FS-->
 
@@ -97,6 +103,7 @@
                                 </Button>
                             </StackPanel>
                         </StackPanel>
+                    </StackPanel>
                     </StackPanel>
                 </Grid>
 

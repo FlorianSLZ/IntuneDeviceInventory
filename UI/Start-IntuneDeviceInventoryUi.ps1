@@ -1,13 +1,13 @@
 <#
 Version: 1.0
-Author: Jannik Reinhard (jannikreinhard.com)
+Author: Florian Salzman (scloud.work) / Jannik Reinhard (jannikreinhard.com)
 Script: Start-IntuneDeviceInventoryUi
 Description:
-Start IntuneDeviceInventoryUi
+Start and init the IntuneDeviceInventoryUi
 Release notes:
 1.0 :
 - Init
-#> 
+#>
 ###########################################################################################################
 ############################################ Functions ####################################################
 ###########################################################################################################
@@ -80,6 +80,7 @@ function Exit-Error {
 
     Write-Error $text 
     $global:messageScreen.Hide()
+    $global:formAuth.Hide()
     Exit
 }
 
@@ -113,8 +114,8 @@ if (-not (Import-Dlls)) {
 }
 
 # Create Temp folder
-Set-MessageScreenText -text "Create temp folder if not exist"
-$folder = Add-TempFolder
+# Set-MessageScreenText -text "Create temp folder if not exist"
+# $folder = Add-TempFolder
 
 # Install Idi odule
 Set-MessageScreenText -text "Try to install IntuneDeviceInventory module"
@@ -126,7 +127,7 @@ Get-Authenticated
 Get-LoadingMessageScreen -xamlPath ("$global:Path\xaml\message.xaml")
 
 # Init Ui
-Set-MessageScreenText -text "Intit User Interface"
+Set-MessageScreenText -text "Init User Interface"
 try{
     $returnMainForm = New-XamlScreen -xamlPath ("$global:Path\xaml\ui.xaml")
     $global:formMainForm = $returnMainForm[0]
@@ -139,7 +140,7 @@ try{
 }catch{
     Exit-Error -text "Failed to init UI"
 }
-New-UiInti
+if (-not (New-UiInti)) { Exit-Error -text "Failed to init UI" }
 
 # Get all devices
 Set-MessageScreenText -text "Get all devices"

@@ -1,10 +1,12 @@
 <#
-.SYNOPSIS
-Hadeling UI
-.DESCRIPTION
-Handling of the WPF UI
-.NOTES
-  Author: Jannik Reinhard
+Version: 1.0
+Author: Florian Salzman (scloud.work) / Jannik Reinhard (jannikreinhard.com)
+Script: deviceInventoryHandler
+Description:
+Handel the ui actions
+Release notes:
+1.0 :
+- Init
 #>
 
 ########################################################################################
@@ -274,7 +276,6 @@ function Show-SingleDevice{
     param (
         [Parameter(Mandatory = $true)] $selectedItem
     )
-
     # Change UI
     Hide-All
     $WPFGridShowDevice.Visibility = "Visible"
@@ -326,18 +327,27 @@ function New-UiInti {
     Set-UiImages
 
     try {
-        $WPFLableUPN.Content = (Invoke-MSGraphRequest -URL 'https://graph.microsoft.com/beta/me?$select=userPrincipalName').userPrincipalName
-        $WPFLableTenant.Content = (Invoke-MSGraphRequest -URL 'https://graph.microsoft.com/beta/organization?$select=displayName').value.displayName
+        if($global:AuthMethod -eq 'User'){
+            $WPFLableUPN.Content = (Invoke-MSGraphRequest -URL 'https://graph.microsoft.com/beta/me?$select=userPrincipalName').userPrincipalName
+            
+        }else{
+            $WPFLableUPN.Content =  $global:AuthAppId
+        }        
     }
     catch {
         Write-Error "Fail to load profile info: $_"
         return $false
     }
 
+    try{
+        $WPFLableTenant.Content = (Invoke-MSGraphRequest -URL 'https://graph.microsoft.com/beta/organization?$select=displayName').value.displayName
+    }catch{
+        Write-Error "Fail to load organization: $_"
+    }
+
     # Set buttons
     Set-UiActionButton
     Set-UiAction
-
     return $true
 }
 

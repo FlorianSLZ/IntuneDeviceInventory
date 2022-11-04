@@ -1,17 +1,19 @@
 <#
-.SYNOPSIS
-Hadeling IDI
-.DESCRIPTION
-Handling of IDI
-.NOTES
-  Author: Jannik Reinhard
+Version: 1.0
+Author: Florian Salzman (scloud.work) / Jannik Reinhard (jannikreinhard.com)
+Script: deviceInventoryHandler
+Description:
+Handel the intune devie inventory functions
+Release notes:
+1.0 :
+- Init
 #>
 
 function Install-IdiModule{
     $IntuneDeviceInventory = Get-InstalledModule -Name "IntuneDeviceInventory" -ErrorAction SilentlyContinue
     try{
         if(-not ($IntuneDeviceInventory)){
-            Install-Module -Name IntuneDeviceInventory -Scope CurrentUser -Confirm:$false -Force
+        Install-Module -Name IntuneDeviceInventory -Scope CurrentUser -Confirm:$false -Force
         }
     }catch{
         Write-Error "Failed to install Intune Device Inventory from Powershell gallery: $_"

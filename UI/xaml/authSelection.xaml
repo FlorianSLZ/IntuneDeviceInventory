@@ -14,18 +14,10 @@
         ResizeMode="NoResize" Background="#FF1B1A19" Foreground="White">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="1" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="25*"/>
@@ -33,13 +25,13 @@
             </Grid.RowDefinitions>
             <TextBlock Name="TextMessageHeader" Text="Authentication" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Height="27" Width="130"/>
             <TextBlock Name="TextMessageBody" Text="Selet the authentication method: " Grid.Row="1" VerticalAlignment="Center" Height="16" />
-            <StackPanel x:Name="RadioButtons" Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Left" Width="164">
+            <StackPanel x:Name="RadioButtons" Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Left">
 
                 <RadioButton x:Name="RbUser" Margin="10,5,0,0" GroupName="AuthSelection" Foreground="White" IsChecked="True">User auth</RadioButton>
                 <RadioButton x:Name="RbManual" Margin="10,5,0,0" GroupName="AuthSelection" Foreground="White">Serivce Principle (insert manual)</RadioButton>
                 <RadioButton x:Name="RbAuto" Margin="10,5,0,0" GroupName="AuthSelection" Foreground="White" >Serivce Principle (auto creation and save local)</RadioButton>
             </StackPanel>
-            <StackPanel x:Name="Buttons" Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Width="100" VerticalAlignment="Bottom" Height="28">
+            <StackPanel x:Name="Buttons" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Width="100" VerticalAlignment="Bottom" Height="28">
                 <Button x:Name="ButtonMessage1" Content="Next" Background="#2089F5" Foreground="Black" HorizontalContentAlignment="Center" Grid.Row="2"  Height="28" BorderThickness="0" Width="90" Visibility="Visible" HorizontalAlignment="Right"/>
             </StackPanel>
         </Grid>

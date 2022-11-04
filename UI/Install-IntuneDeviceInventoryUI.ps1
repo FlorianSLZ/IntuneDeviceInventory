@@ -1,9 +1,13 @@
-#############################################################################################################
-#
-#   Tool:       IntuneDeviceInventory IU - Installer
-#   Author:     Florian Salzmann & Jannik Reinhard
-#
-#############################################################################################################
+<#
+Version: 1.0
+Author: Florian Salzman (scloud.work) / Jannik Reinhard (jannikreinhard.com)
+Script: Install_IntuneDeviceInventoryUI
+Description:
+Installation of the intune device inventory
+Release notes:
+1.0 :
+- Init
+#>
 
 #   Program variables
 $ProgramPath = "$env:LOCALAPPDATA\IntuneDeviceInventory"
