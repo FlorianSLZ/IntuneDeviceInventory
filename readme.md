@@ -5,8 +5,8 @@
 # IntuneDeviceInventory (IDI)
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/IntuneDeviceInventory)
 
-This module was created to have the ablility to add more informations to a Microsoft Intune device object. 
-In addition there are some funtions to bulk initiate Intune commands like a Sync for devices. 
+This module was created to have the ability to add more pieces of information to a Microsoft Intune device object. 
+In addition, there are some functions to bulk initiate Intune commands like a Sync for devices. 
 
 
 ## Installing the module from PSGallery
@@ -19,7 +19,7 @@ Install-Module -Name IntuneDeviceInventory
 ## Import the module for testing
 
 As an alternative to installing, you chan download this Repository and import it in a PowerShell Session. 
-*The path may be diffent in your case*
+*The path may be different in your case*
 ```PowerShell
 Import-Module -Name "C:\GitHub\IntuneDeviceInventory" -Verbose -Force
 ```
@@ -31,12 +31,14 @@ IntuneDeviceInventory module requires the following modules, which will be autom
 
 # Functions / Examples
 
-Here are all functions and some examples to start with
+Here are all functions and some examples to start with:
 
 - Add-IDIProperty
 - Connect-IDI
+- ConvertTo-IDINotes
 - Get-IDIDevice
 - Get-IDIDeviceNotes
+- Get-noneIDIDevice
 - Get-noneIDIReference
 - Import-IDIAppConnection
 - Invoke-IDIDeviceBitLockerRotation
@@ -46,6 +48,7 @@ Here are all functions and some examples to start with
 - Invoke-IDIDeviceSync
 - Invoke-PagingRequest
 - New-IDIApp
+- Remove-IDIAppConnection
 - Save-IDIAppConnection
 - Set-IDIDevice
 - Set-IDIDeviceNotes
@@ -53,10 +56,10 @@ Here are all functions and some examples to start with
 - Test-4IDIDevices
 
 ## Authentication
-Before using any of the functions within this module that interacts with Graph API, ensure you are autheticated. 
+Before using any of the functions within this module that interacts with Graph API, ensure you are authenticated. 
 
 ### User Authentication
-With this command you'll be connected to the Graph API and be able to use all commands
+With this command, you'll be connected to the Graph API and be able to use all commands
 ```PowerShell
 # Authentication as User
 Connect-IDI
@@ -97,9 +100,21 @@ $Device2edit.Monitor = 'Samsung Odyssey G9 49"'
 Set-IDIDevice -IDIDevice $Device2edit
 ```
 
+### Converting none IDI notes
+
+If you already have any notes filed up, you can convert them into "IDI-notes", so that they are compatible with all the commands and the custom fields. 
+```PowerShell
+# Convert notes of a single device
+ConvertTo-IDINotes -DeviceId 892582d8-xxxx-xxxx-xxxx-afe0ada8b8d2 -PropertyName "purchase date"
+
+# Convert all notes
+## if notes from a device are already compatible, they won't be processed
+ConvertTo-IDINotes -All -PropertyName "purchase date"
+```
+
 ## Bulk commands
 
-With the bulk commands (starting with Invoke-) you chan easily perform INtune bulkactions for selected devices. 
+With the bulk commands (starting with Invoke-) you chan easily perform INtune bulk actions for selected devices. 
 
 ### Sync all devices
 
@@ -125,8 +140,8 @@ Invoke-IDIDeviceDefenderScan -Grid
 Invoke-IDIDeviceDefenderSignatures -deviceName 'dev-w11-01'
 ```
 ## Azure AD Applications
-With Azure AD Applications you have the posibillity to access all features witout a user login. 
-You will need either Global Administrator or Application Administrator to register the app in Azure. 
+With Azure AD Applications you have the possibility to access all features without a user login. 
+You will need either a Global Administrator or Application Administrator to register the app in Azure. 
 
 Permissions for the application:
 - DeviceManagementManagedDevices.PrivilegedOperations.All
@@ -137,8 +152,8 @@ Permissions for the application:
 - User.Read.All
 
 ### Creating a Azure AD Applications
-For creating an new App or secret you can use **New-IDIApp**. The only thing you have to do after the creation process is to give a admin consent for the permissions. 
-*The consent is only needed when creating a new app, not when addin a clientsecret*
+For creating a new App or secret you can use **New-IDIApp**. The only thing you have to do after the creation process is to give admin consent for the permissions. 
+*The consent is only needed when creating a new app, not when adding a client secret*
 ```PowerShell
 # Creates a new App and shows connection details
 # login required
@@ -158,7 +173,7 @@ New-IDIApp -Save -Force
 
 
 ### manually save Azure AD Applications details
-If you already have an app/secret you can save the connection details manuelly:
+If you already have an app/secret you can save the connection details manually:
 ```PowerShell
 Save-IDIAppConnection -ClientId $ClientId -TenantId $TenantId -ClientSecret $ClientSecret
 ```
