@@ -35,8 +35,8 @@ function ConvertTo-IDINotes{
     try{
         if($All){
             Write-Verbose "Read all Intune Devices and run *ConvertTo-IDINotes -IDIDevice `$_* ..."
-            Get-noneIDIDevice -All | ConvertTo-IDINotes -IDIDevice $_
-    
+            Get-noneIDIDevice -All | ForEach-Object{ ConvertTo-IDINotes -DeviceId $_.id -PropertyName $PropertyName }
+                
         }else{
             Write-Verbose "Read notes for $DeviceId"
             $Notes = $null
@@ -45,23 +45,34 @@ function ConvertTo-IDINotes{
             $uri = "https://graph.microsoft.com/beta/$($Resource)?select=$properties"
             $Notes = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).notes
     
-            if($Notes){       
-                Write-Verbose "Convert notes to JSON with PropertyName $PropertyName"
-                $NoteObj = @(
-                    [pscustomobject]@{$PropertyName="$Notes"}
-                )
-                $NoteObj = $NoteObj | Convertto-Json
-    
-                Write-Verbose "Update notes on Intune Device: $DeviceId"
-                $Json = @{ "notes" = "$NoteObj" } 
-                $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$DeviceId')"
-    
-                Invoke-MSGraphRequest -Url $uri -HttpMethod PATCH -Content $Json
-    
+            if($Notes){
+                try{
+                    $IDINoteCheck = $null
+                    $IDINoteCheck = $($Notes | ConvertFrom-Json -ErrorAction SilentlyContinue)
+                }catch{}
+                
+                if($IDINoteCheck){
+                    Write-Warning "Device already compatible with IDI: $DeviceId"
+
+                }else{
+                    Write-Verbose "Convert notes to JSON with PropertyName $PropertyName"
+                    $NoteObj = @(
+                        [pscustomobject]@{$PropertyName="$Notes"}
+                    )
+                    $NoteObj = $NoteObj | Convertto-Json
+        
+                    Write-Verbose "Update notes on Intune Device: $DeviceId"
+                    $Json = @{ "notes" = "$NoteObj" } 
+                    $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$DeviceId')"
+        
+                    Invoke-MSGraphRequest -Url $uri -HttpMethod PATCH -Content $Json
+
+                }
+
             }else{Write-Verbose "Device $DeviceId has no notes."}
         }
     }catch{
-        Write-Error "Error while processing notes:`n$_"
+        Write-Error "Error while processing notes: $DeviceId `n$_"
     }
 
 }
