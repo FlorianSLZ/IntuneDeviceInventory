@@ -8,7 +8,7 @@ This repository is divided in two parts. The module ittself and its UI.
 | Module    | UI    |
 |----------------|-------------------------------|
 | [Module @GitHub]: https://github.com/FlorianSLZ/IntuneDeviceInventory/tree/main/Module |  [UI @GitHub]: https://github.com/FlorianSLZ/IntuneDeviceInventory/tree/main/UI  |
-| [Module Introduction]: https://scloud.work/IntuneDeviceInventory | [UI introduction]: https://jannikreinhard.com/ |
+| [Module Introduction]: https://scloud.work/IntuneDeviceInventory | [UI Introduction]: https://jannikreinhard.com/ |
 
 # Functions
 The module and UI was created to have the ability to add more pieces of information to a Microsoft Intune device object. 
