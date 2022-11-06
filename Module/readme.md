@@ -21,7 +21,7 @@ Install-Module -Name IntuneDeviceInventory
 As an alternative to installing, you chan download this Repository and import it in a PowerShell Session. 
 *The path may be different in your case*
 ```PowerShell
-Import-Module -Name "C:\GitHub\IntuneDeviceInventory" -Verbose -Force
+Import-Module -Name "C:\GitHub\IntuneDeviceInventory\Module" -Verbose -Force
 ```
 
 ## Module dependencies
