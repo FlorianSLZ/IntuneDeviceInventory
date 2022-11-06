@@ -4,7 +4,8 @@
 
 # IntuneDeviceInventory (PowerShell Module & UI)
 
-This repository is divided in two parts. The module ittself and its UI. 
+This repository is divided into two parts. The module itself and its UI. 
+
 | Module    | UI    |
 |----------------|-------------------------------|
 | [Module @GitHub](https://github.com/FlorianSLZ/IntuneDeviceInventory/tree/main/Module) |  [UI @GitHub](https://github.com/FlorianSLZ/IntuneDeviceInventory/tree/main/UI)  |
