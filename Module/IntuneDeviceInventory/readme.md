@@ -11,7 +11,7 @@ In addition, there are some functions to bulk initiate Intune commands like a Sy
 
 ## Installing the module from PSGallery
 
-The IntuneWin32App module is published to the PowerShell Gallery. Install it on your system by running the following in an elevated PowerShell console:
+The IntuneWin32App module is published to the [PowerShell Gallery](https://www.powershellgallery.com/packages/IntuneDeviceInventory). Install it on your system by running the following in an elevated PowerShell console:
 ```PowerShell
 Install-Module -Name IntuneDeviceInventory
 ```
@@ -74,11 +74,14 @@ Import-IDIAppConnection -Select -Connect
 ```
 
 ## Basic commands
-### Get Devices (inc. custom fields)
+### Get Devices
 
 ```PowerShell
-# Ge all devices
-Get-IDIDevices -All
+# Get all devices with notes
+Get-IDIDevice -All
+
+# Get all devices without notes
+Get-noneIDIDevice -All
 ```
 
 ### Adding a Prperty
@@ -90,11 +93,11 @@ Add-IDIProperty -PropertyName "Monitor"
 ### Managing a Device
 
 ```PowerShell
-# Select the devicre
+# Select the device
 $Device2edit = $IDIDevices_all | Out-GridView -OutputMode Single
 
 # Set Device Property
-$Device2edit.Monitor = 'Samsung Odyssey G9 49"'
+$Device2edit.Monitor = 'Samsung Odyssey G9'
 
 # Update Device in Intune with changes
 Set-IDIDevice -IDIDevice $Device2edit
@@ -119,7 +122,7 @@ With the bulk commands (starting with Invoke-) you chan easily perform INtune bu
 ### Sync all devices
 
 ```PowerShell
-Invoke-IDIDeviceSync -all
+Invoke-IDIDeviceSync -All
 ```
 
 ### Reboot devices from group
@@ -160,7 +163,7 @@ For creating a new App or secret you can use **New-IDIApp**. The only thing you 
 New-IDIApp
 
 # Creates a new App and saves the details encrypted in the users AppData:
-#   ("C:\Users\florian.salzmann\AppData\Local\IntuneDeviceInventory\AppConnection\TenantId.connection")
+#   ("C:\Users\%username%\AppData\Local\IntuneDeviceInventory\AppConnection\TenantId.connection")
 New-IDIApp -Save
 
 # Creates a new App and saves the details encrypted in the users AppData

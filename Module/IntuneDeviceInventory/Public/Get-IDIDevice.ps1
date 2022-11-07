@@ -78,6 +78,9 @@ function Get-IDIDevice{
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices"
         $Method = "GET"
         $IntuneDevices = (Invoke-PagingRequest -URI $uri -Method $Method)
+        
+        $global:IDIDevices_all = $IntuneDevices
+        Write-Verbose "All devices ($($global:IDIDevices_all.count)) saved in `$global:IDIDevices_all"
     
     }elseif($ScopeTag){
         # tbd

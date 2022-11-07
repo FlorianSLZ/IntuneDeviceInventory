@@ -1,4 +1,7 @@
 # Release notes for IntuneDeviceInventory module
+## 1.0.1
+- minor changes
+- "-Verbose" optimization
 ## 1.0.0
 This is the relese after testing and optimizing varios funtions. 
 

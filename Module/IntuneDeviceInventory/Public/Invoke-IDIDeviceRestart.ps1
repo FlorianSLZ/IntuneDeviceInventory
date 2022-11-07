@@ -70,7 +70,7 @@ function Invoke-IDIDeviceRestart {
 
     
     if($All){
-        if($global:IDIDevices_all){$global:IDIDevices_all | ForEach-Object{ Invoke-IDIDevice -IDIDevice $_}}
+        if($global:IDIDevices_all){$global:IDIDevices_all | ForEach-Object{ Invoke-IDIDeviceRestart -IDIDevice $_}}
         else{Get-noneIDIDevice -All | ForEach-Object{ Invoke-IDIDeviceRestart -IDIDevice $_}}
         
     }elseif($Group){
@@ -91,7 +91,7 @@ function Invoke-IDIDeviceRestart {
     }elseif($Grid){
         if($global:IDIDevices_all){
             $Devices2Sync = $global:IDIDevices_all | Out-GridView -Title "Please select your devices" -OutputMode Multiple
-            $Devices2Sync | ForEach-Object{ Invoke-IDIDevice -IDIDevice $_}
+            $Devices2Sync | ForEach-Object{ Invoke-IDIDeviceRestart -IDIDevice $_}
         }
         else{Get-noneIDIDevice -Grid | ForEach-Object{ Invoke-IDIDeviceRestart -IDIDevice $_}}
         

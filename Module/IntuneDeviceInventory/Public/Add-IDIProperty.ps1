@@ -22,6 +22,7 @@ function Add-IDIProperty{
         Write-Warning "Property already present"
     }
     else{
+        if(!$global:IDIDevices_all){$global:IDIDevices_all = (Get-IDIDevice -All) }
         $global:IDIDevices_all | Add-Member -NotePropertyName $PropertyName -NotePropertyValue $null
     }
 }
