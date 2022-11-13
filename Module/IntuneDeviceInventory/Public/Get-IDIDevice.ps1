@@ -30,6 +30,9 @@ function Get-IDIDevice{
     .PARAMETER Grid
         Switch to select Intune Devices out of a GridView
 
+    .PARAMETER Progress
+        Switch to show progress for loading notes
+
     #>
 
     param (
@@ -63,7 +66,11 @@ function Get-IDIDevice{
 
         [parameter(Mandatory = $false, HelpMessage = "Switch to select Intune Devices out of a GridView")]
         [ValidateNotNullOrEmpty()]
-        [switch]$Grid
+        [switch]$Grid,
+
+        [parameter(Mandatory = $false, HelpMessage = "Switch to show progress for loading notes")]
+        [ValidateNotNullOrEmpty()]
+        [switch]$Progress
 
     )
 
@@ -75,6 +82,7 @@ function Get-IDIDevice{
 
     if($All){
         Write-Verbose "Get all managed Devices from Intune..."
+        if($Progress){Write-Output "Reading all managed devices, progress starts shortly..."}
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices"
         $Method = "GET"
         $IntuneDevices = (Invoke-PagingRequest -URI $uri -Method $Method)
@@ -134,8 +142,19 @@ function Get-IDIDevice{
         Write-Warning "No device was found with the specified search criteria."
     }else{
         Write-Verbose "Get notes for selected managed Device from Intune ..."
+        if($Progress){
+            # Variables for write Progress
+            $TotalItems = $IntuneDevices.Count
+            $CurrentItem = 0
+            $PercentComplete = 0
+        }
         if($IntuneDevices.count -gt 1){
             foreach($IntuneDevice in $IntuneDevices){
+                if($Progress){
+                    Write-Progress -Activity "Reading notes from $TotalItems devices..." -Status "$PercentComplete% Complete:" -PercentComplete $PercentComplete
+                    $CurrentItem++
+                    $PercentComplete = [int](($CurrentItem / $TotalItems) * 100)
+                }
                 $SelectedIDIDevices += Get-IDIDeviceNotes -IDIDevice $IntuneDevice
             }
         }else{  $SelectedIDIDevices = Get-IDIDeviceNotes -IDIDevice $IntuneDevices[0]   }
