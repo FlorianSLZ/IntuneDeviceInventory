@@ -44,8 +44,11 @@ Here are all functions and some examples to start with:
 - Invoke-IDIDeviceBitLockerRotation
 - Invoke-IDIDeviceDefenderScan
 - Invoke-IDIDeviceDefenderSignatures
+- Invoke-IDIDeviceDelete
 - Invoke-IDIDeviceRestart
+- Invoke-IDIDeviceRetire
 - Invoke-IDIDeviceSync
+- Invoke-IDIDeviceWipe
 - Invoke-PagingRequest
 - New-IDIApp
 - Remove-IDIAppConnection
@@ -142,6 +145,16 @@ Invoke-IDIDeviceDefenderScan -Grid
 ```PowerShell
 Invoke-IDIDeviceDefenderSignatures -deviceName 'dev-w11-01'
 ```
+
+### Trigger Wipe for device name
+
+```PowerShell
+Invoke-IDIDeviceWipe -deviceName 'dev-w10-01'
+
+# or to wipe witout asking
+Invoke-IDIDeviceWipe -deviceName 'dev-w10-01' -Force
+```
+
 ## Azure AD Applications
 With Azure AD Applications you have the possibility to access all features without a user login. 
 You will need either a Global Administrator or Application Administrator to register the app in Azure. 
