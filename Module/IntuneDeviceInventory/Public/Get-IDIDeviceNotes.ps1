@@ -37,9 +37,8 @@ function Get-IDIDeviceNotes{
                     }
                 }
                 
-                if (-not ($IDIDevice | Get-Member -Name $property.Name)){
-                    $IDIDevice | Add-Member -NotePropertyName $property.Name -NotePropertyValue $property.Value
-                }
+                $IDIDevice | Add-Member -NotePropertyName $property.Name -NotePropertyValue $property.Value -Force
+
             }
         }catch{
             Write-Error "Notes of $($IDIDevice.id) are not compatible with the IntuneDeviceInventory. `nRun the following command to convert them:`nConvertTo-IDINotes -DeviceId $($IDIDevice.id)"
