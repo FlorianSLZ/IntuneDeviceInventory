@@ -1,5 +1,8 @@
 # Release notes for IntuneDeviceInventory module
 ## 1.1.0
+Minor fixes
+
+## 1.1.0
 Added *-Progress* to Get-IDIDevices to show the process of reading notes
 
 Added Invoke functions with Major impact:
