@@ -59,7 +59,7 @@ function Set-UiActionButton {
 
     # Signel Device view
     Add-XamlEvent -object $WPFButtonNewRow -event "Add_Click" -scriptBlock {
-        $WPFDataGridSingleDevice.ItemsSource +=('{ "Value":"Add a value", "Name":"New Attribute", "Changed":"(*)", "InitValue":"Add a value", "InitName":"New Attribute", "UpdateAttribute":"False" }' | ConvertFrom-Json)
+        $WPFDataGridSingleDevice.ItemsSource += @('{ "Value":"Add a value", "Name":"New Attribute", "Changed":"(*)", "InitValue":"Add a value", "InitName":"New Attribute", "UpdateAttribute":"False" }' | ConvertFrom-Json)
         $WPFDataGridSingleDevice.Items.Refresh()
     }
 
@@ -92,7 +92,7 @@ function Set-UiActionButton {
 
     # Multi devices
     Add-XamlEvent -object $WPFButtonNewRowMulti -event "Add_Click" -scriptBlock {
-        $WPFDataGridMultiDevices.ItemsSource +=('{ "Value":"Add a value", "Name":"New Attribute", "Changed":"(*)", "InitValue":"Add a value", "InitName":"New Attribute", "UpdateAttribute":"False" }' | ConvertFrom-Json)
+        $WPFDataGridMultiDevices.ItemsSource += @('{ "Value":"Add a value", "Name":"New Attribute", "Changed":"(*)", "InitValue":"Add a value", "InitName":"New Attribute", "UpdateAttribute":"False" }' | ConvertFrom-Json)
         $WPFDataGridMultiDevices.Items.Refresh()
     }
 
@@ -135,7 +135,7 @@ function Set-UiActionButton {
                 Set-IDIDevice -IDIDevice $device
             } 
         }
-        $WPFDataGridMultiDevices.ItemsSource = $WPFDataGridMultiDevices.ItemsSource | Where-Object {($_.Changed -ne "Delete" -and $_.Changed -ne '(*)')}
+        $WPFDataGridMultiDevices.ItemsSource = @($WPFDataGridMultiDevices.ItemsSource | Where-Object {($_.Changed -ne "Delete" -and $_.Changed -ne '(*)')})
         
         $WPFDataGridMultiDevices.ItemsSource | ForEach-Object {
             $_.UpdateAttribute = $false
@@ -171,7 +171,7 @@ function Set-UiAction {
         if($this.CurrentItem.Name -ne $this.CurrentItem.InitName -or $this.CurrentItem.Value -ne $this.CurrentItem.InitValue){
             $this.CurrentItem.Changed = '*'
         }    
-        $this.Items.Refresh()
+        $this.Items.Refresh() 
     }
 
     Add-XamlEvent -object $WPFDataGridMultiDevices -event "Add_CurrentCellChanged" -scriptBlock {
@@ -181,8 +181,10 @@ function Set-UiAction {
         }
         if($this.CurrentItem.Name -ne $this.CurrentItem.InitName -or $this.CurrentItem.Value -ne $this.CurrentItem.InitValue){
             $this.CurrentItem.Changed = '*'
-        }    
-        $this.Items.Refresh()
+        }
+        try{
+            $this.Items.Refresh()
+        }catch{}
     }
     
     # Device 
@@ -292,7 +294,7 @@ function Show-SingleDevice{
     $WPFLabelLostModeState.Content = $selectedItem.Details.lostModeState
 
     # Show custom attributes
-    $WPFDataGridSingleDevice.ItemsSource = $selectedItem.CustomInventory
+    $WPFDataGridSingleDevice.ItemsSource = @($selectedItem.CustomInventory | Where-Object {$Null -ne $_.Value -and $Null -ne $_.InitValue})
 }
 
 function Show-MultiDevices{
@@ -309,7 +311,7 @@ function Show-MultiDevices{
     # Create inventory
     $inventory = @()
     $selectedItems | ForEach-Object {$inventory =  $inventory  + $_.CustomInventory}
-    $inventory = @($inventory | Sort-Object -Property Name,Value -Unique)
+    $inventory = @($inventory | Sort-Object -Property Name,Value -Unique | Where-Object {$null -ne $_.Value -and $null -ne $_.InitValue})
 
     $WPFDataGridMultiDevices.ItemsSource = $inventory
 }
