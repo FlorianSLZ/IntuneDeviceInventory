@@ -152,5 +152,5 @@ Set-MessageScreenText -text "Add devices to grid"
 $global:allDevicesGrid = Add-DevicesToGridObject -devices $global:allDevices
 Add-DevicesToGrid -devices $global:allDevicesGrid
 
-
+$global:messageScreen.Hide()
 $global:formMainForm.ShowDialog() | out-null
