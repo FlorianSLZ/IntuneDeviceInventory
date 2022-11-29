@@ -1,5 +1,5 @@
 # Release notes for IntuneDeviceInventory module
-## 1.1.0
+## 1.1.1
 Minor fixes
 
 ## 1.1.0
