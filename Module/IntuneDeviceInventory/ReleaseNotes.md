@@ -1,4 +1,9 @@
 # Release notes for IntuneDeviceInventory module
+## 1.2.0
+Added Backup & Restore functions:
+- Backup-IDI
+- Restore-IDI
+
 ## 1.1.1
 Minor fixes
 
