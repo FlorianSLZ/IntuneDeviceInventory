@@ -34,6 +34,7 @@ IntuneDeviceInventory module requires the following modules, which will be autom
 Here are all functions and some examples to start with:
 
 - Add-IDIProperty
+- Backup-IDI
 - Connect-IDI
 - ConvertTo-IDINotes
 - Get-IDIDevice
@@ -52,6 +53,7 @@ Here are all functions and some examples to start with:
 - Invoke-PagingRequest
 - New-IDIApp
 - Remove-IDIAppConnection
+- Restore-IDI
 - Save-IDIAppConnection
 - Set-IDIDevice
 - Set-IDIDeviceNotes
@@ -116,6 +118,21 @@ ConvertTo-IDINotes -DeviceId 892582d8-xxxx-xxxx-xxxx-afe0ada8b8d2 -PropertyName 
 # Convert all notes
 ## if notes from a device are already compatible, they won't be processed
 ConvertTo-IDINotes -All -PropertyName "purchase date"
+```
+## Backup & Restore
+If you have a lot of infos in your custom field fore sure you wat to bakup them. 
+The Backup is stored in a JSON file. 
+The Backup&Restore functiuonality also works in a Tenant to Teannt migration.
+
+```PowerShell
+# Backup current configuration (if no path is specified, it will be stored in the users temp)
+Backup-IDI
+
+# Restore previosly backuped configuration (same tenant)
+Restore-IDI -Path "C:\...\backup.json"
+
+# Restore to a new tenant, devices will match by serialnumber
+Restore-IDI -Path "C:\...\backup.json" -serial
 ```
 
 ## Bulk commands
