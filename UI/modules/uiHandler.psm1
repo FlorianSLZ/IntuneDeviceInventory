@@ -88,6 +88,9 @@ function Set-UiActionButton {
         }
         $WPFDataGridSingleDevice.Items.Refresh()
         Get-RefresDevices
+        
+        Hide-All
+        $WPFGridDeviceFinder.Visibility = "Visible"
     }
 
     # Multi devices
