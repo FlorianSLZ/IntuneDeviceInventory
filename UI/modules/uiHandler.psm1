@@ -78,16 +78,15 @@ function Set-UiActionButton {
     Add-XamlEvent -object $WPFButtonSave -event "Add_Click" -scriptBlock {
         $WPFDataGridSingleDevice.Items | ForEach-Object{
             $item = $WPFDataGridAllDevices.SelectedItems[0].Details | Where-Object {-not($_.Changed -eq "Delete" -or $_.Changed -eq '(*)')}
-            if (-not ($item | Get-Member -Name $_.Name)){
-                $item | Add-Member -NotePropertyName $_.Name -NotePropertyValue $_.Value
-            }
+            $item | Add-Member -NotePropertyName $_.Name -NotePropertyValue $_.Value -Force
+
             Set-IDIDevice -IDIDevice $item
             $_.Changed = $null
             $_.InitValue = $_.Value
             $_.InitName = $_.Name
         }
         $WPFDataGridSingleDevice.Items.Refresh()
-        Get-RefresDevices
+        #Get-RefresDevices
         
         Hide-All
         $WPFGridDeviceFinder.Visibility = "Visible"
@@ -116,7 +115,7 @@ function Set-UiActionButton {
     Add-XamlEvent -object $WPFButtonSaveMulti -event "Add_Click" -scriptBlock {
         # Check if there are changes to apply
         if(($WPFDataGridMultiDevices.ItemsSource.UpdateAttribute | Where-Object {$_ -eq $true}).count -lt 1){
-            Show-MessageBoxInWindow -text "No change to apply. Please check add and mark an attibute to change" -button1text "Ok"
+            Show-MessageBoxInWindow -text "No change to apply. Please check add and mark an attibute to change." -button1text "OK"
         }
 
         $WPFDataGridMultiDevicesSelected.ItemsSource | ForEach-Object{
@@ -149,7 +148,11 @@ function Set-UiActionButton {
         
         $WPFDataGridMultiDevices.Items.Refresh()
         $WPFDataGridMultiDevices.ItemsSource
-        Get-RefresDevices
+
+        Show-MessageBoxInWindow -text "Changes saved. New fields will show up after a manual refresh." -button1text "OK"
+        Hide-All
+        $WPFGridDeviceFinder.Visibility = "Visible"
+        #Get-RefresDevices
     }
     
 

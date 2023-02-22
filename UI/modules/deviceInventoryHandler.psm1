@@ -36,6 +36,14 @@ function Get-RefresDevices{
     Add-DevicesToGrid -devices $allDevicesGrid
 }
 
+function Get-RefreshSingleDevice($Device){
+    $index = $global:allDevices.id.IndexOf($Device.id)
+    $global:allDevices[$index] = $Device
+    $allDevicesGrid = Add-DevicesToGridObject -devices $global:allDevices
+    Add-DevicesToGrid -devices $allDevicesGrid
+}
+
+
 function Add-DevicesToGridObject {
     param (
         [Parameter(Mandatory = $true)] $devices
