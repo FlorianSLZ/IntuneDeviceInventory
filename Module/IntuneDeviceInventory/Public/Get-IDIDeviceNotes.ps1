@@ -23,7 +23,7 @@ function Get-IDIDeviceNotes{
     $Resource = "deviceManagement/managedDevices('$($IDIDevice.id)')"
     $properties = 'notes'
     $uri = "https://graph.microsoft.com/beta/$($Resource)?select=$properties"
-    $Notes = (Invoke-MgGraphRequest -Method GET -Url $uri -ErrorAction Stop).notes
+    $Notes = (Invoke-MgGraphRequest -Method GET -Uri $uri -ErrorAction Stop).notes
 
     if($Notes){
         try{

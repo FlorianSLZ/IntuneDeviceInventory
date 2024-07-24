@@ -47,9 +47,5 @@ function Connect-IDI {
         $MSGraph = Connect-MgGraph -Scopes "User.Read.All", "Device.Read.All", "DeviceManagementManagedDevices.ReadWrite.All", "DeviceManagementServiceConfig.ReadWrite.All", "GroupMember.ReadWrite.All" 
         Write-Verbose $MSGraph
 
-        $CurrentMgContext = Get-MgContext
-        $MSIntuneGraph = Connect-MSIntuneGraph -TenantID $CurrentMgContext.TenantId -ClientID $CurrentMgContext.ClientID
-        Write-Verbose $MSIntuneGraph
-
     } 
 }

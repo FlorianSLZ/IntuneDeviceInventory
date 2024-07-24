@@ -98,7 +98,7 @@ function Invoke-IDIDeviceBitLockerRotation {
     }elseif($IDIDevice){
         Write-Verbose "Trigger BitLocker key rotation for device with id: $($IDIDevice.id) ..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($IDIDevice.id)')/rotateBitLockerKeys"
-        Invoke-MgGraphRequest -Url $uri -Method POST
+        Invoke-MgGraphRequest -Uri $uri -Method POST
     }else{
         Write-Warning "No device or scope for Invoke-IDIDeviceBitLockerRotation specified."
     }

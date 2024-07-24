@@ -112,7 +112,7 @@ function Invoke-IDIDeviceRetire {
 
         Write-Verbose "Retire device with id: $($IDIDevice.id) ..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($IDIDevice.id)')/microsoft.graph.retire"
-        Invoke-MgGraphRequest -Url $uri -Method POST
+        Invoke-MgGraphRequest -Uri $uri -Method POST
     }else{
         Write-Warning "No device or scope for Invoke-IDIDeviceRetire specified."
     }

@@ -112,7 +112,7 @@ function Invoke-IDIDeviceWipe {
 
         Write-Verbose "Wipe device with id: $($IDIDevice.id) ..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($IDIDevice.id)')/microsoft.graph.wipe"
-        Invoke-MgGraphRequest -Url $uri -Method POST
+        Invoke-MgGraphRequest -Uri $uri -Method POST
     }else{
         Write-Warning "No device or scope for Invoke-IDIDeviceWipe specified."
     }
