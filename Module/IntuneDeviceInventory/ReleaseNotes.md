@@ -1,4 +1,8 @@
 # Release notes for IntuneDeviceInventory module
+
+## 1.3.0
+Moved away from Microsoft.Graph.Intune Module
+
 ## 1.2.0
 Added Backup & Restore functions:
 - Backup-IDI

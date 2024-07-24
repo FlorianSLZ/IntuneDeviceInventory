@@ -97,7 +97,7 @@ function Get-IDIDevice{
     }elseif($Group){
         Write-Verbose "Get group ID for $Group ..."
         $uri = "https://graph.microsoft.com/beta/groups?`$filter=displayName%20eq%20'$Group'"
-        $GroupID = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value.id
+        $GroupID = (Invoke-MgGraphRequest -Method GET -Url $uri -ErrorAction Stop).value.id
         
         Write-Verbose "Get group members for ID: $GroupID ..."
         $uri = "https://graph.microsoft.com/beta/groups('$GroupID')/transitiveMembers"
@@ -112,21 +112,21 @@ function Get-IDIDevice{
     }elseif($User){
         Write-Verbose "Get managed Intune Devices where user is: $User ..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices?`$filter=userPrincipalName%20eq%20'$User'"     
-        $IntuneDevices = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value
+        $IntuneDevices = (Invoke-MgGraphRequest -Method GET -Url $uri -ErrorAction Stop).value
     }elseif($deviceName){
         Write-Verbose "Get managed Device from Intune with name: $deviceName ..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices?`$filter=deviceName%20eq%20'$deviceName'"     
-        $IntuneDevices = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value
+        $IntuneDevices = (Invoke-MgGraphRequest -Method GET -Url $uri -ErrorAction Stop).value
         
     }elseif($id){
         Write-Verbose "Get managed Device from Intune by id: $id ..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$id')"
-        $IntuneDevices = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop)
+        $IntuneDevices = (Invoke-MgGraphRequest -Method GET -Url $uri -ErrorAction Stop)
 
     }elseif($azureADDeviceId){
         Write-Verbose "Get managed Device from Intune by azureADDeviceId: $azureADDeviceId ..."
         $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices?`$filter=azureADDeviceId%20eq%20'$azureADDeviceId'"     
-        $IntuneDevices = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value
+        $IntuneDevices = (Invoke-MgGraphRequest -Method GET -Url $uri -ErrorAction Stop).value
 
     }elseif($Grid)
     {

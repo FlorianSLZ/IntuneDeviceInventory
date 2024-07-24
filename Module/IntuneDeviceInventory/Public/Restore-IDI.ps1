@@ -37,7 +37,7 @@ function Restore-IDI{
                 if($serial){
                     Write-Verbose "Get managed Device from Intune by SerialNumber: $($Device.serialNumber) ..."
                     $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices?`$filter=serialNumber%20eq%20'$($Device.serialNumber)'"
-                    $Device.id = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).value.id
+                    $Device.id = (Invoke-MgGraphRequest -Method GET -Url $uri -ErrorAction Stop).value.id
                 }
 
                 if($Device.id){
@@ -53,7 +53,7 @@ function Restore-IDI{
                     $Json = @{ "notes" = "$Note_json" } 
                     $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$($Device.id)')"
     
-                    Invoke-MSGraphRequest -Url $uri -HttpMethod PATCH -Content $Json
+                    Invoke-MgGraphRequest -Url $uri -Method PATCH -Body $Json
                 }else{
                     Write-Warning "Device ID for SerialNumber not found: $($Device.serialNumber)"
                 }

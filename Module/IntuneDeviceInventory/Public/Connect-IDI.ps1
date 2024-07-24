@@ -32,17 +32,24 @@ function Connect-IDI {
     )
 
     if($ClientId -and $ClientSecret -and $TenantId){
-        Write-Verbose "Graph connection via Azure App, Tenant: $TenantId"
-        $authority = "https://login.windows.net/$TenantId"
-        Update-MSGraphEnvironment -AppId $ClientId -Quiet
-        Update-MSGraphEnvironment -AuthUrl $authority -Quiet
-        Connect-MSGraph -ClientSecret $ClientSecret -Quiet
-        Update-MSGraphEnvironment -SchemaVersion "Beta" -Quiet
+        Write-Verbose "Graph connection via Entra App, Tenant: $TenantId"
+        $ClientSecretCredential = New-Object System.Management.Automation.PSCredential ($ClientId, $(ConvertTo-SecureString $ClientSecret -AsPlainText -Force))
+        Connect-MgGraph -TenantId $TenantId -ClientSecretCredential $ClientSecretCredential
 
     }else{
+        # Disconnect old session
+        if($(Get-MgContext).AppName){   
+            Write-Host "Kill old Graph Session"
+            Disconnect-Graph    
+        }
+
         Write-Verbose "Graph connection via user authentification"
-        $MSGraph = Connect-MSGraph
-        Update-MSGraphEnvironment -SchemaVersion "Beta" -Quiet
+        $MSGraph = Connect-MgGraph -Scopes "User.Read.All", "Device.Read.All", "DeviceManagementManagedDevices.ReadWrite.All", "DeviceManagementServiceConfig.ReadWrite.All", "GroupMember.ReadWrite.All" 
         Write-Verbose $MSGraph
+
+        $CurrentMgContext = Get-MgContext
+        $MSIntuneGraph = Connect-MSIntuneGraph -TenantID $CurrentMgContext.TenantId -ClientID $CurrentMgContext.ClientID
+        Write-Verbose $MSIntuneGraph
+
     } 
 }

@@ -27,7 +27,7 @@ function Invoke-PagingRequest {
 
     )
 
-    $GraphResponse = Invoke-MSGraphRequest -HttpMethod $Method -Url $uri
+    $GraphResponse = Invoke-MgGraphRequest -Method $Method -Url $uri
 
     $GraphResponseCollection = $GraphResponse.value 
     $UserNextLink = $GraphResponse."@odata.nextLink"
@@ -35,7 +35,7 @@ function Invoke-PagingRequest {
 
     while($UserNextLink -ne $null){
 
-        $GraphResponse = (Invoke-MSGraphRequest -Url $UserNextLink -HttpMethod $Method)
+        $GraphResponse = (Invoke-MgGraphRequest -Url $UserNextLink -Method $Method)
         $UserNextLink = $GraphResponse."@odata.nextLink"
         $GraphResponseCollection += $GraphResponse.value
 

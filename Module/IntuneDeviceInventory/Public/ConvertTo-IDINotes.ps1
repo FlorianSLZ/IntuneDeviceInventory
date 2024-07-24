@@ -43,7 +43,7 @@ function ConvertTo-IDINotes{
             $Resource = "deviceManagement/managedDevices('$DeviceId')"
             $properties = 'notes'
             $uri = "https://graph.microsoft.com/beta/$($Resource)?select=$properties"
-            $Notes = (Invoke-MSGraphRequest -HttpMethod GET -Url $uri -ErrorAction Stop).notes
+            $Notes = (Invoke-MgGraphRequest Method GET -Url $uri -ErrorAction Stop).notes
     
             if($Notes){
                 try{
@@ -65,7 +65,7 @@ function ConvertTo-IDINotes{
                     $Json = @{ "notes" = "$NoteObj" } 
                     $uri = "https://graph.microsoft.com/beta/deviceManagement/managedDevices('$DeviceId')"
         
-                    Invoke-MSGraphRequest -Url $uri -HttpMethod PATCH -Content $Json
+                    Invoke-MgGraphRequest -Url $uri -Method PATCH -Body $Json
 
                 }
 
