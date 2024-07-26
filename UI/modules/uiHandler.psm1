@@ -336,7 +336,7 @@ function New-UiInti {
 
     try {
         if($global:AuthMethod -eq 'User'){
-            $WPFLableUPN.Content = (Invoke-MSGraphRequest -URL 'https://graph.microsoft.com/beta/me?$select=userPrincipalName').userPrincipalName
+            $WPFLableUPN.Content = (Invoke-MGGraphRequest -URI 'https://graph.microsoft.com/beta/me?$select=userPrincipalName').userPrincipalName
             
         }else{
             $WPFLableUPN.Content =  $global:AuthAppId
@@ -348,7 +348,7 @@ function New-UiInti {
     }
 
     try{
-        $WPFLableTenant.Content = (Invoke-MSGraphRequest -URL 'https://graph.microsoft.com/beta/organization?$select=displayName').value.displayName
+        $WPFLableTenant.Content = (Invoke-MGGraphRequest -URI 'https://graph.microsoft.com/beta/organization?$select=displayName').value.displayName
     }catch{
         Write-Error "Fail to load organization: $_"
     }
